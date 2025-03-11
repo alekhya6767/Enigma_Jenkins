@@ -1,6 +1,15 @@
 pipeline {
     agent any
     stages {
+        stage('Install Node.js and npm') {
+            steps {
+                script {
+                    // Install Node.js and npm
+                    sh 'curl -sL https://deb.nodesource.com/setup_16.x | bash -'
+                    sh 'apt-get install -y nodejs'  // For Linux-based agents, adjust for macOS if necessary
+                }
+            }
+        }
         stage('Checkout') {
             steps {
                 checkout scm
@@ -9,7 +18,6 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Install dependencies using npm (or yarn, if preferred)
                     sh 'npm install'
                 }
             }
@@ -17,11 +25,10 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    def nodePath = "/usr/local/bin/node" // Update with actual path
+                    def nodePath = "/usr/local/bin/node" // Update with actual path if necessary
                     if (isUnix()) {
-                        // Run the test command and output results to a file
                         sh "${nodePath} --eval 'console.log(process.arch, process.platform)'"
-                        sh "npm test -- --reporter mocha-junit-reporter"  // Adjust for your test runner (e.g., Mocha)
+                        sh "npm test -- --reporter mocha-junit-reporter"  // Adjust for your test runner
                     } else {
                         bat "${nodePath} --eval 'console.log(process.arch, process.platform)'"
                         bat "npm test -- --reporter mocha-junit-reporter"  // Adjust for your test runner
@@ -31,20 +38,17 @@ pipeline {
         }
         stage('Record Test Results') {
             steps {
-                // Record JUnit test results (ensure this is the correct path to your test reports)
                 junit '**/test-results/*.xml'  // Adjust the path to match your test report location
             }
         }
         stage('Store Artifacts') {
             steps {
-                // Archive build artifacts like logs, test results, etc.
                 archiveArtifacts allowEmptyArchive: true, artifacts: '**/test-results/*.xml, **/logs/*.log', fingerprint: true
             }
         }
     }
     post {
         always {
-            // Archive any additional logs or artifacts if needed
             echo "Pipeline completed"
         }
         success {
