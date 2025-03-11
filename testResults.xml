@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+    <testsuite name="com.example.MyTestSuite" tests="3" failures="1" errors="0" skipped="0" time="0.456" timestamp="2023-10-15T12:34:56">
+        <testcase name="testAddition" classname="com.example.CalculatorTest" time="0.123">
+            <!-- This test passed -->
+        </testcase>
+        <testcase name="testSubtraction" classname="com.example.CalculatorTest" time="0.234">
+            <!-- This test failed -->
+            <failure message="Expected 2 but was 3" type="AssertionError">
+                <![CDATA[
+                org.junit.ComparisonFailure: Expected 2 but was 3
+                    at com.example.CalculatorTest.testSubtraction(CalculatorTest.java:25)
+                ]]>
+            </failure>
+        </testcase>
+        <testcase name="testMultiplication" classname="com.example.CalculatorTest" time="0.099">
+            <!-- This test was skipped -->
+            <skipped message="Test is not implemented yet"/>
+        </testcase>
+    </testsuite>
+</testsuites>
