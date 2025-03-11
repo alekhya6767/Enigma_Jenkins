@@ -1,16 +1,19 @@
 pipeline {
-    agent any
+    agent {
+        label '!windows'
+    }
+
+    environment {
+        DISABLE_AUTH = 'true'
+        DB_ENGINE    = 'sqlite'
+    }
+
     stages {
-        stage('Test') {
+        stage('Build') {
             steps {
-                script {
-                    def nodePath = "/usr/local/bin/node" // Update with actual path
-                    if (isUnix()) {
-                        sh "${nodePath} --eval 'console.log(process.arch, process.platform)'"
-                    } else {
-                        bat "${nodePath} --eval 'console.log(process.arch, process.platform)'"
-                    }
-                }
+                echo "Database engine is ${DB_ENGINE}"
+                echo "DISABLE_AUTH is ${DISABLE_AUTH}"
+                sh 'printenv'
             }
         }
     }
