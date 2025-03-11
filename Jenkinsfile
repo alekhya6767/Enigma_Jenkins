@@ -1,13 +1,8 @@
-pipeline {
-    agent { label 'docker-agent' }
-
-    stages {
-        stage('Build') {
-            steps {
-                echo 'Running on a Docker-supported agent'
-                sh 'node --version'
-            }
+node {
+    stage('Build') {
+        checkout scm
+        docker.image('node:22.14.0-alpine3.21').inside {
+            sh 'node --version'
         }
     }
 }
-
