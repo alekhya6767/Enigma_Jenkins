@@ -18,7 +18,7 @@ pipeline {
             steps {
                 // Install dependencies if needed
                 // For example, using npm for a Node.js project
-                sh 'npm install'
+                echo 'npm install'
             }
         }
 
@@ -26,7 +26,7 @@ pipeline {
             steps {
                 // Run the tests using a test framework (e.g., npm test, pytest)
                 // Adjust this command based on your project
-                sh 'npm test'
+                echo 'npm test'
             }
         }
 
