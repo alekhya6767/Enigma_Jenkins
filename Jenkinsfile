@@ -1,13 +1,14 @@
 pipeline {
-    agent any  // Use any available agent instead of Docker
+    agent any
     stages {
         stage('Test') {
             steps {
                 script {
+                    def nodePath = "/usr/local/bin/node" // Update with actual path
                     if (isUnix()) {
-                        sh 'node --eval "console.log(process.arch, process.platform)"'
+                        sh "${nodePath} --eval 'console.log(process.arch, process.platform)'"
                     } else {
-                        bat 'node --eval "console.log(process.arch, process.platform)"'
+                        bat "${nodePath} --eval 'console.log(process.arch, process.platform)'"
                     }
                 }
             }
