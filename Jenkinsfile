@@ -1,19 +1,9 @@
 pipeline {
-    agent any
+    agent { docker { image 'ruby:3.4.2-alpine3.21' } }
     stages {
-        stage('Build') {
+        stage('build') {
             steps {
-                echo 'Building the project...'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Running tests...'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying application...'
+                sh 'ruby --version'
             }
         }
     }
