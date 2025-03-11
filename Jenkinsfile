@@ -1,16 +1,13 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:22.14.0-alpine3.21'
-        }
-    }
-    
+    agent { label 'docker-agent' }
+
     stages {
         stage('Build') {
             steps {
-                echo 'Running inside Docker container'
+                echo 'Running on a Docker-supported agent'
                 sh 'node --version'
             }
         }
     }
 }
+
