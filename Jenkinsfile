@@ -1,42 +1,12 @@
 pipeline {
-    agent any  // Runs on any available agent
-
+    agent {
+        docker { image 'node:22.14.0-alpine3.21' }
+    }
     stages {
-        stage('Build') {
-            steps {
-                echo 'Starting the build process...'
-                sh 'echo "Compiling source code..."'
-                sh 'echo "Build completed successfully!"'
-            }
-        }
-
         stage('Test') {
             steps {
-                echo 'Running tests...'
-                sh 'echo "Executing unit tests..."'
-                sh 'echo "All tests passed!"'
+                sh 'node --eval "console.log(process.arch,process.platform)"'
             }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo 'Deploying application...'
-                sh 'echo "Deploying to staging environment..."'
-                sh 'echo "Deployment successful!"'
-            }
-        }
-    }
-
-    post {
-        always {
-            echo 'Cleaning up workspace...'
-            sh 'echo "Performing cleanup tasks..."'
-        }
-        success {
-            echo 'Pipeline execution completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed! Check the logs for more details.'
         }
     }
 }
